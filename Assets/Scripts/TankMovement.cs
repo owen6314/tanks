@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TankMovement : MonoBehaviour {
 
@@ -24,9 +22,16 @@ public class TankMovement : MonoBehaviour {
 	{
 		m_Rigidbody = GetComponent<Rigidbody> ();
 	}
+    private void Start()
+    {
+        m_MovementAxisName = "Vertical" + m_PlayerNumber;
+        m_TurnAxisName = "Horizontal" + m_PlayerNumber;
 
-	private void OnEable()
+        m_OriginalPitch = m_MovementAudio.pitch;
+    }
+    private void OnEnable()
 	{
+        Debug.Log("Enabled");
 		m_Rigidbody.isKinematic = false;
 		m_MovementInputValue = 0f;
 		m_TurnInputValue = 0f;
@@ -37,19 +42,12 @@ public class TankMovement : MonoBehaviour {
 		m_Rigidbody.isKinematic = true;
 	}
 
-	private void Start () 
-	{
-		m_MovementAxisName = "Vertical" + m_PlayerNumber;
-		m_TurnAxisName = "Horizontal" + m_PlayerNumber;
-		m_OriginalPitch = m_MovementAudio.pitch;
-	}
 
 	private void Update () 
 	{
 		m_MovementInputValue = Input.GetAxis (m_MovementAxisName);
 		m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
-
-		EngineAudio ();
+        EngineAudio ();
 	}
 
 	private void EngineAudio()
@@ -79,9 +77,6 @@ public class TankMovement : MonoBehaviour {
 		//move and turn the tank
 		Move();
 		Turn ();
-
-
-
 	}
 
 	private void Move ()
